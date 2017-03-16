@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>爱墙贴</title>
+    
+    <style type="text/css">
+    	.body{
+    		width: 100%;
+    		height: 100%;
+    		margin: 0;
+    		padding: 0;
+    	}
+    	.note{
+    		width: 250px;
+    		height: 200px;
+    		position: absolute;
+    		/*left: 300px;
+    		top: 250px;
+    		z-index: auto;*/
+    	}
+    	.title{
+    		margin: 10px;
+    	}
+    	.content{
+    		margin: 10px;
+    	}
+    </style>
+</head>
+<body class="body">
+	<!--<div class="note">
+		<div class="title">2017年3月16日 11:31</div>
+		<div class="content">TEST</div>
+	</div>-->
+</body>
+</html>
+<!-- 
+	需求：
+		1. 用户可以新建贴纸
+		2. 将贴纸“粘贴”到网页上，位置随机，颜色自定义
+		3. 用户可以根据编号查询自己的历史贴纸
+	设计：
+		1. “新建贴纸”功能
+		2. “查询贴纸”功能
+		3. “贴纸”属性：1）创建时间；2）内容；3）“贴纸”颜色（自定义）；4）“贴纸”层级（z-index属性随机[1-5]）；
+		4. 点击当前”贴纸“，将”贴纸“置于当前（改变z-index=5）
+		5. “贴纸”可以在网页中随意拖动（DIV长按事件）
+-->
+	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript">
+		$(function () {
+			var getRandomColor = function(){
+			  return (function(m,s,c){    
+			    return (c ? arguments.callee(m,s,c-1) : '#') +
+			      s[m.floor(m.random() * 16)]
+			  })(Math,'0123456789abcdef',5);
+			};
+			var _width = parseInt($(window).width() - 100,10);
+			var _height = parseInt($(window).height() - 100, 10);
+			
+			for (var i = 0; i < 1000; i++) {
+				var zindex = Math.ceil(Math.random()*5);
+				var leftDiv = Math.ceil(Math.random()*_width) + 'px';
+				var topDiv = Math.round(Math.random()*_height) + 'px';
+				$('body').append('<div class="note" style="z-index: '+zindex+';left: '+leftDiv+';top: '+topDiv+';background-color: '+getRandomColor()+';"><div class="title">2017年3月16日 11:31</div><div class="content">TEST</div></div>');
+			}
+			
+			$('.note').mousedown(function (e) {
+	            $(this).css('z-index', 5);
+	        });
+        });
+	</script>
